@@ -70,3 +70,13 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Sensitive Files
+/[Aa]ssets/[Cc]orgiEngine/
+/[Aa]ssets/[Ii]nputIcons/
+/[Aa]ssets/[Mm]MData/
+/[Aa]ssets/[Pp]lugins/
+Assets/CorgiEngine.meta
+Assets/InputIcons.meta
+Assets/MMData.meta
+Assets/Plugins.meta
