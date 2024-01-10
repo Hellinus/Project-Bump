@@ -20,7 +20,7 @@ namespace _Bump.Scripts.Player
 
         [Header("Bump Behaviour")]
         
-        public CharacterBumpDetection BumpDetection;
+        public BumpDetectionComponent BumpDetection;
         public BumpBehavior BumpRestrictions = BumpBehavior.CanBumpAnywhere;
         public int NumberOfBumps = 2;
         public float ShrinkSpeed = 1f;

@@ -10,8 +10,8 @@ using UnityEngine.Serialization;
 
 namespace _Bump.Scripts.Player
 {
-    [AddComponentMenu("Corgi Engine/Character/Abilities/Character Bump Detection")]
-    public class CharacterBumpDetection : MonoBehaviour
+    [AddComponentMenu("Corgi Engine/Character/Abilities/Bump Detection Component")]
+    public class BumpDetectionComponent : MonoBehaviour
     {
         public CircleCollider2D CircleCollider { get; private set; }
 
