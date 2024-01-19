@@ -23,8 +23,6 @@ GameObject:
   - component: {fileID: 11463706}
   - component: {fileID: 11453748}
   - component: {fileID: 11431628}
-  - component: {fileID: 11475426}
-  - component: {fileID: 11433500}
   - component: {fileID: 11444118}
   - component: {fileID: 11455680}
   - component: {fileID: 114000012565017190}
@@ -37,6 +35,7 @@ GameObject:
   - component: {fileID: -4342895061800036961}
   - component: {fileID: 5613542907704654304}
   - component: {fileID: 7152137642518594584}
+  - component: {fileID: 1552565985107997842}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -433,7 +432,7 @@ MonoBehaviour:
   BlockingMovementStates: 
   BlockingConditionStates: 
   BlockingWeaponStates: 
-  RunSpeed: 6
+  RunSpeed: 7
   StopRunAtLowSpeed: 0
   RunLowSpeedThreshold: 1
   ReadInput: 1
@@ -508,56 +507,6 @@ MonoBehaviour:
   BlockingWeaponStates: 
   BufferDurationAfterGrip: 0.3
   InputBasedGrip: 0
---- !u!114 &11475426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 119040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51d7707613113491a9d85f1caab5837b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AbilityStartFeedbacks: {fileID: 0}
-  AbilityStopFeedbacks: {fileID: 0}
-  AbilityPermitted: 1
-  BlockingMovementStates: 
-  BlockingConditionStates: 
-  BlockingWeaponStates: 
-  WallClingingSlowFactor: 0.03
-  RaycastVerticalOffset: 0
-  WallClingingTolerance: 0.3
-  ResetVerticalForceOnEntry: 1
-  InputIndependent: 1
---- !u!114 &11433500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 119040}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eeabffc5d6e694a8287c891288b0a4be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AbilityStartFeedbacks: {fileID: 0}
-  AbilityStopFeedbacks: {fileID: 0}
-  AbilityPermitted: 1
-  BlockingMovementStates: 
-  BlockingConditionStates: 
-  BlockingWeaponStates: 
-  WallJumpForce: {x: 10, y: 3}
-  ForceMode: 0
-  ForceFlipTowardsDirection: 1
-  ShouldReduceNumberOfJumpsLeft: 0
-  LimitNumberOfWalljumps: 0
-  MaximumNumberOfWalljumps: 3
-  NumberOfWalljumpsLeft: 0
-  AllowCoyoteTime: 0
-  CoyoteTimeDuration: 0.2
 --- !u!114 &11444118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1054,13 +1003,9 @@ MonoBehaviour:
   BlockingMovementStates: 
   BlockingConditionStates: 
   BlockingWeaponStates: 
-  BumpDetection: {fileID: 5688861661174444876}
   BumpRestrictions: 2
-  NumberOfBumps: 2
   ShrinkSpeed: 1
   ResetCameraOffsetOnBump: 0
-  CanBumpDownOneWayPlatforms: 1
-  NumberOfBumpsLeft: 0
   BumpForceMin: 8
   BumpForceMax: 20
   BumpPressDownTimeMin: 0.2
@@ -1068,8 +1013,46 @@ MonoBehaviour:
   BumpDetectRadiusMin: 0.7
   BumpDetectRadiusMax: 1.5
   LerpValue: 0.4
+  JumpRestrictions: 1
+  NumberOfJumps: 1
+  CanJumpDownOneWayPlatforms: 1
+  NumberOfJumpsLeft: 0
+  CoyoteTime: 0.2
+  JumpMinimumAirTime: 0.1
   OneWayPlatformsBumpCollisionOffDuration: 0.3
   MovingPlatformsBumpCollisionOffDuration: 0.05
+  _bumpFactor: 0
+  _bumpRadius: 0
+  _bumpForce: 0
+--- !u!114 &1552565985107997842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3a698f292d85674385aa8cda157e4a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AbilityStartFeedbacks: {fileID: 0}
+  AbilityStopFeedbacks: {fileID: 0}
+  AbilityPermitted: 1
+  BlockingMovementStates: 
+  BlockingConditionStates: 
+  BlockingWeaponStates: 
+  WallClingingSlowFactor: 0.02
+  RaycastVerticalOffset: 0
+  WallClingingTolerance: 0.3
+  ResetVerticalForceOnEntry: 1
+  InputIndependent: 1
+  ForceMode: 0
+  WallJumpForce: {x: 10, y: 1}
+  LimitNumberOfWalljumps: 0
+  MaximumNumberOfWalljumps: 1
+  NumberOfWalljumpsLeft: 0
+  ForceFlipTowardsDirection: 1
   _bumpFactor: 0
   _bumpRadius: 0
   _bumpForce: 0
