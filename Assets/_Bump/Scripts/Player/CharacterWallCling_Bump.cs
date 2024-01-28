@@ -44,7 +44,6 @@ namespace _Bump.Scripts.Player
         public bool ForceFlipTowardsDirection = false;
         public bool WallJumpHappenedThisFrame { get; set; }
         
-        
         [Header("Debug")]
         [MMReadOnly] public float _bumpFactor = 0f;
         [MMReadOnly] public float _bumpRadius = 0f;
@@ -57,13 +56,20 @@ namespace _Bump.Scripts.Player
         protected CharacterStates.MovementStates _stateLastFrame;
         protected RaycastHit2D _raycast;
         protected WallClingingOverride _wallClingingOverride;
-       
         protected float _bumpPressDownTime = 0f;
         protected bool _bumpDetecting = false;
         protected BumpDetectionComponent _bumpDetection;
         protected bool _hasWallJumped = false;
         protected Vector2 _wallJumpVector;
-
+        
+        // animation parameters
+        protected const string _wallClingingAnimationParameterName = "WallClinging";
+        protected const string _wallShrinkingAnimationParameterName = "WallShrinking";
+        protected const string _wallShrinkingTimeAnimationParameterName = "WallShrinkingTime";
+        protected int _wallClingingAnimationParameter;
+        protected int _wallShrinkingAnimationParameter;
+        protected int _wallShrinkingTimeAnimationParameter;
+        
         protected override void Initialization()
         {
 	        base.Initialization();
@@ -552,6 +558,26 @@ namespace _Bump.Scripts.Player
         }
         
         /// <summary>
+        /// Adds required animator parameters to the animator parameters list if they exist
+        /// </summary>
+        protected override void InitializeAnimatorParameters()
+        {
+	        RegisterAnimatorParameter (_wallClingingAnimationParameterName, AnimatorControllerParameterType.Bool, out _wallClingingAnimationParameter);
+	        RegisterAnimatorParameter (_wallShrinkingAnimationParameterName, AnimatorControllerParameterType.Bool, out _wallShrinkingAnimationParameter);
+	        RegisterAnimatorParameter (_wallShrinkingTimeAnimationParameterName, AnimatorControllerParameterType.Float, out _wallShrinkingTimeAnimationParameter);
+        }
+
+        /// <summary>
+        /// Updates the animator with the current wallclinging state
+        /// </summary>
+        public override void UpdateAnimator()
+        {
+	        MMAnimatorExtensions.UpdateAnimatorBool(_animator, _wallClingingAnimationParameter, (_movement.CurrentState == CharacterStates.MovementStates.WallClinging), _character._animatorParameters, _character.PerformAnimatorSanityChecks);
+	        MMAnimatorExtensions.UpdateAnimatorBool(_animator, _wallShrinkingAnimationParameter, (_movement.CurrentState == CharacterStates.MovementStates.WallShrinking), _character._animatorParameters, _character.PerformAnimatorSanityChecks);
+	        MMAnimatorExtensions.UpdateAnimatorFloat(_animator, _wallShrinkingTimeAnimationParameter, _bumpPressDownTime, _character._animatorParameters, _character.PerformAnimatorSanityChecks);
+        }
+        
+        /// <summary>
         /// On reset ability, we cancel all the changes made
         /// </summary>
         public override void ResetAbility()
@@ -562,10 +588,12 @@ namespace _Bump.Scripts.Player
 		        ProcessExit();	
 	        }
 
-	        // if (_animator != null)
-	        // {
-		       //  MMAnimatorExtensions.UpdateAnimatorBool(_animator, _wallClingingAnimationParameter, false, _character._animatorParameters, _character.PerformAnimatorSanityChecks);	
-	        // }
+	        if (_animator != null)
+	        {
+		        MMAnimatorExtensions.UpdateAnimatorBool(_animator, _wallClingingAnimationParameter, false, _character._animatorParameters, _character.PerformAnimatorSanityChecks);	
+		        MMAnimatorExtensions.UpdateAnimatorBool(_animator, _wallShrinkingAnimationParameter, false, _character._animatorParameters, _character.PerformAnimatorSanityChecks);
+		        MMAnimatorExtensions.UpdateAnimatorFloat(_animator, _wallShrinkingTimeAnimationParameter, 0f, _character._animatorParameters, _character.PerformAnimatorSanityChecks);
+	        }
         }
         
     }

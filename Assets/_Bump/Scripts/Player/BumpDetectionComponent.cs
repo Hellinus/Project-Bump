@@ -65,9 +65,10 @@ namespace _Bump.Scripts.Player
 
             if ((DetectLayerMask & 1 << other.gameObject.layer) > 0)
             {
-                Vector2 hitPos = other.bounds.ClosestPoint(transform.position);
-                _vectorTemp.x = this.transform.position.x - hitPos.x;
-                _vectorTemp.y = this.transform.position.y - hitPos.y;
+                var position = this.transform.position;
+                Vector2 hitPos = other.bounds.ClosestPoint(position);
+                _vectorTemp.x = position.x - hitPos.x;
+                _vectorTemp.y = position.y - hitPos.y;
                 FinalVector += _vectorTemp;
             }
         }

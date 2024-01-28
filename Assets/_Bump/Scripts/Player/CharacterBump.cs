@@ -51,9 +51,10 @@ namespace _Bump.Scripts.Player
         public float BumpDetectRadiusMin = 0.7f;
         public float BumpDetectRadiusMax = 1.5f;
         public float LerpValue = 0.5f;
-        
+
         [Header("Jump Behaviour")]
         
+        public float JumpForce = 9f;
         [Tooltip("basic rules for jumps : where can the player jump ?")]
         public JumpBehavior JumpRestrictions = JumpBehavior.CanJumpAnywhere;
         public int NumberOfJumps = 1;
@@ -91,6 +92,18 @@ namespace _Bump.Scripts.Player
         protected float _lastTimeGrounded = 0f;
         protected bool _bumpDetecting = false;
         protected BumpDetectionComponent _bumpDetection;
+        
+        // animation parameters
+        protected const string _shrinkingAnimationParameterName = "Shrinking";
+        protected const string _shrinkingTimeAnimationParameterName = "ShrinkingTime";
+        protected const string _bumpingAnimationParameterName = "Bumping";
+        protected const string _hitTheGroundAnimationParameterName = "HitTheGround";
+        // protected const string _numberOfJumpsLeftParameterName = "NumberOfJumpsLeft";
+        protected int _shrinkingAnimationParameter;
+		protected int _shrinkingTimeAnimationParameter;
+        protected int _bumpingAnimationParameter;
+        protected int _hitTheGroundAnimationParameter;
+        // protected int _numberOfJumpsLeftAnimationParameter;
         
         /// <summary>
         /// On Start() we reset our number of bumps
@@ -364,7 +377,7 @@ namespace _Bump.Scripts.Player
 	        
 	        // we decrease the number of jumps left
 	        NumberOfJumpsLeft--;
-	        _controller.SetVerticalForce(8f);
+	        _controller.SetVerticalForce(JumpForce);
         }
         
         /// <summary>
@@ -689,6 +702,28 @@ namespace _Bump.Scripts.Player
         }
         
         /// <summary>
+        /// Adds required animator parameters to the animator parameters list if they exist
+        /// </summary>
+        protected override void InitializeAnimatorParameters()
+        {
+	        RegisterAnimatorParameter(_shrinkingAnimationParameterName, AnimatorControllerParameterType.Bool, out _shrinkingAnimationParameter);
+	        RegisterAnimatorParameter(_shrinkingTimeAnimationParameterName, AnimatorControllerParameterType.Float, out _shrinkingTimeAnimationParameter);
+	        RegisterAnimatorParameter(_bumpingAnimationParameterName, AnimatorControllerParameterType.Bool, out _bumpingAnimationParameter);
+	        RegisterAnimatorParameter(_hitTheGroundAnimationParameterName, AnimatorControllerParameterType.Bool, out _hitTheGroundAnimationParameter);
+        }
+        
+        /// <summary>
+        /// At the end of each cycle, sends Jumping states to the Character's animator
+        /// </summary>
+        public override void UpdateAnimator()
+        {
+	        MMAnimatorExtensions.UpdateAnimatorBool(_animator, _shrinkingAnimationParameter, (_movement.CurrentState == CharacterStates.MovementStates.Shrinking), _character._animatorParameters, _character.PerformAnimatorSanityChecks);
+	        MMAnimatorExtensions.UpdateAnimatorFloat(_animator, _shrinkingTimeAnimationParameter, _bumpPressDownTime, _character._animatorParameters, _character.PerformAnimatorSanityChecks);
+	        MMAnimatorExtensions.UpdateAnimatorBool(_animator, _bumpingAnimationParameter, (_movement.CurrentState == CharacterStates.MovementStates.Bumping), _character._animatorParameters, _character.PerformAnimatorSanityChecks);
+	        MMAnimatorExtensions.UpdateAnimatorBool(_animator, _hitTheGroundAnimationParameter, _controller.State.JustGotGrounded, _character._animatorParameters, _character.PerformAnimatorSanityChecks);
+        }
+        
+        /// <summary>
         /// Resets parameters in anticipation for the Character's respawn.
         /// </summary>
         public override void ResetAbility()
@@ -697,5 +732,7 @@ namespace _Bump.Scripts.Player
 	        NumberOfJumps = _initialNumberOfJumps;
 	        NumberOfJumpsLeft = _initialNumberOfJumps;
         }
+        
+
     }
 }
