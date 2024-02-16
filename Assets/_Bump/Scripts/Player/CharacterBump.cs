@@ -226,6 +226,8 @@ namespace _Bump.Scripts.Player
 				return;
 			}
 			
+			Debug.Log("bump");
+			
 			_movement.ChangeState(CharacterStates.MovementStates.Bumping);
 			
 			// we reset our walking speed
@@ -253,7 +255,7 @@ namespace _Bump.Scripts.Player
 			Vector2 v = _bumpDetection.FinalVector.normalized * _bumpForce;
 			_bumpDetection.Reset();
 			_controller.AddHorizontalForce(v.x);
-			// Debug.Log(v.y);
+			Debug.Log(v);
 			if (v.y >= 0.1f)
 			{
 				_controller.SetVerticalForce(v.y);
@@ -671,7 +673,7 @@ namespace _Bump.Scripts.Player
         /// Stores the current NumberOfBumps
         /// </summary>
         protected virtual void ResetInitialNumberOfJumps()
-        {        
+        {
 	        _initialNumberOfJumps = NumberOfJumps;
         }
         
